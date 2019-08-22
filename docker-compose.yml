@@ -14,6 +14,8 @@ services:
       - HUB_IP=jupyterhub
       - GITLAB_HOST=http://gitlab.mmcs.sfedu.ru
       - OAUTH_CALLBACK_URL=https://grade-dev.mmcs.sfedu.ru/hub/oauth_callback
+      - OAUTH_CLIENT_ID=b27b5560b403e75e92fb80f44cc4a458e3bd455cbe3cbe4bba3fb08c48e76a10
+      - OAUTH_CLIENT_SECRET=197727cd4b08fd3278ba0990d59fb60eb1dacb5b73f564cfab21692f0a65ac81
       - HOST
     labels:
       - "traefik.enable=true"

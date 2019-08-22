@@ -71,7 +71,7 @@ RUN echo "Host gitlab.mmcs.sfedu.ru\n\t\tStrictHostKeyChecking no\n" >> /home/$N
 
 USER $NB_UID
 
-RUN cd /home/$NB_USER/work && git clone git@gitlab.mmcs.sfedu.ru:pentane/PENTANE.git
+RUN cd /home/$NB_USER/work && git clone git@gitlab.mmcs.sfedu.ru:OPS_Group/OPS.git
 
 # Fix SageMath kernel
 USER root
@@ -87,30 +87,18 @@ RUN jupyter labextension install @jupyterlab/git
 RUN pip install --upgrade jupyterlab-git
 RUN jupyter serverextension enable --py jupyterlab_git
 
-RUN wget https://bootstrap.pypa.io/get-pip.py
-
-RUN python3 get-pip.py
-
 USER $NB_UID
 
-RUN cd /home/$NB_USER && python3 -m pip install virtualenv && \
-    mkdir kernels && cd kernels && mkdir python3 && cd python3 && python3 -m virtualenv .
+RUN /opt/conda/bin/conda create -n cling
+RUN echo "source activate cling" > ~/.bashrc && \
+    bash -c "source ~/.bashrc"
+    #  conda init bash && \
+    #  conda activate cling
+    
+RUN /opt/conda/bin/conda install xeus-cling -c conda-forge
 
-RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m pip install ipykernel
+RUN mkdir /opt/notebooks
 
-USER root
+#RUN mkdir /opt/conda/share/jupyter/kernels/cpp11 && \
+#    cp /opt/conda/envs/cling/share/jupyter/kernels/xcpp11/* /opt/conda/share/jupyter/kernels/cpp11
 
-RUN /bin/bash -c "source /home/$NB_USER/kernels/python3/bin/activate" && python -m ipykernel install --prefix=/opt/conda --name 'pentane-python-3' && python -m pip install -r /home/$NB_USER/work/PENTANE/server_requirements_py3.txt
-
-RUN jupyter lab build
-
-USER root
-
-RUN apt-get update && apt-get install -y octave gnuplot ghostscript
-
-USER $NB_UID
-RUN  pip install octave_kernel && python -m octave_kernel install --prefix=/opt/conda --name 'octave'
-
-#RUN python -m octave_kernel install
-
-USER $NB_UID
