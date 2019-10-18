@@ -8,14 +8,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - jupyterhub_data:/srv/jupyterhub
+      - ./templates:/templates
     environment:
       - DOCKER_JUPYTER_CONTAINER=jupyter/scipy-notebook
       - DOCKER_NETWORK_NAME=${COMPOSE_PROJECT_NAME}_default
       - HUB_IP=jupyterhub
       - GITLAB_HOST=http://gitlab.mmcs.sfedu.ru
-      - OAUTH_CALLBACK_URL=https://grade-dev.mmcs.sfedu.ru/hub/oauth_callback
-      - OAUTH_CLIENT_ID=b27b5560b403e75e92fb80f44cc4a458e3bd455cbe3cbe4bba3fb08c48e76a10
-      - OAUTH_CLIENT_SECRET=197727cd4b08fd3278ba0990d59fb60eb1dacb5b73f564cfab21692f0a65ac81
+      - OAUTH_CALLBACK_URL=https://opsgroup.ru/hub/oauth_callback
+      - OAUTH_CLIENT_ID=aced8f0ac4322286ac6948d3fccf237c479424b5ad0e6dfb393e372caf0c97be
+      - OAUTH_CLIENT_SECRET=61abc2923708babeee1dd8779da07c89447129978346bc9362be78d2334908db
       - HOST
     labels:
       - "traefik.enable=true"
@@ -30,7 +31,7 @@ services:
     command: echo
 
   reverse-proxy:
-    image: traefik
+    image: traefik:v1.7.18
     container_name: reverse-proxy
     ports:
       - "80:80"

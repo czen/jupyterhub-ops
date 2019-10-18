@@ -1,5 +1,7 @@
 import os
 
+c.JupyterHub.template_paths = ['/templates']
+
 ## Generic
 c.JupyterHub.admin_access = True
 c.Spawner.default_url = '/lab'
@@ -36,11 +38,11 @@ c.JupyterHub.hub_ip = os.environ['HUB_IP']
 # see https://github.com/jupyterhub/dockerspawner#data-persistence-and-dockerspawner
 notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 jupyter_workdir = '/home/jovyan'
-pentane_db_dir = os.environ.get('DOCKER_DATABASE_DIR') or '/home/jovyan/data'
+ops_notebook_dir = os.environ.get('DOCKER_DATA_DIR') or '/home/jovyan/data'
 c.DockerSpawner.notebook_dir = jupyter_workdir
 c.DockerSpawner.volumes = { 
     'jupyterhub-user-{username}': notebook_dir,
-    '/home/abagly/pentane_database': pentane_db_dir
+    '/media/vivado-user/extra/ops_notebooks': ops_notebook_dir
     }
 
 # Other stuff
