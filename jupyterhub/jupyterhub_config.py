@@ -1,4 +1,25 @@
 import os
+from dockerspawner import DockerSpawner
+
+class DemoFormSpawner(DockerSpawner):
+    def _options_form_default(self):
+        default_stack = "jupyter/minimal-notebook"
+        return """
+        <label for="stack">Select your desired stack</label>
+        <select name="stack" size="1">
+        <option value="jupyter/scipy-notebook">Default Scipy notebook </option>
+        <option value="czen/jupyterlab-ops">Scipy notebook with cling and OPS </option>
+        <option value="jupyter/datascience-notebook">Datascience notebook </option>
+        </select>
+        """.format(stack=default_stack)
+
+    def options_from_form(self, formdata):
+        options = {}
+        options['stack'] = formdata['stack']
+        container_image = ''.join(formdata['stack'])
+        print("SPAWN: " + container_image + " IMAGE" )
+        self.container_image = container_image
+        return options
 
 c.JupyterHub.template_paths = ['/templates']
 
@@ -28,8 +49,9 @@ c.Authenticator.admin_users=['czen']
 
 
 ## Docker spawner
-c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
-c.DockerSpawner.image = os.environ['DOCKER_JUPYTER_CONTAINER']
+#c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
+c.JupyterHub.spawner_class = DemoFormSpawner
+#c.DockerSpawner.image = os.environ['DOCKER_JUPYTER_CONTAINER']
 c.DockerSpawner.network_name = os.environ['DOCKER_NETWORK_NAME']
 # See https://github.com/jupyterhub/dockerspawner/blob/master/examples/oauth/jupyterhub_config.py
 c.JupyterHub.hub_ip = os.environ['HUB_IP']

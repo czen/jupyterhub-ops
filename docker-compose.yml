@@ -10,7 +10,7 @@ services:
       - jupyterhub_data:/srv/jupyterhub
       - ./templates:/templates
     environment:
-      - DOCKER_JUPYTER_CONTAINER=jupyter/scipy-notebook
+      #- DOCKER_JUPYTER_CONTAINER=jupyter/scipy-notebook
       - DOCKER_NETWORK_NAME=${COMPOSE_PROJECT_NAME}_default
       - HUB_IP=jupyterhub
       - GITLAB_HOST=http://gitlab.mmcs.sfedu.ru
