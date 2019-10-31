@@ -20,7 +20,7 @@ services:
       - HOST
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:${HOST}"
+      - "traefik.frontend.rule=Host:${HOST};PathPrefix:/hub"
     restart: on-failure
 
   jupyterlab:
@@ -29,6 +29,19 @@ services:
     container_name: jupyterlab-throaway
     network_mode: none
     command: echo
+
+  docker-registry:
+    image: registry:2
+    container_name: ops-docker-registry
+    volumes:
+      - ./registry/config.yml:/etc/docker/registry/config.yml
+      - /media/vivado-user/extra/ops-registry:/var/lib/registry 
+      - ./registry/htpasswd:/etc/registry/htpasswd
+    labels:
+      - traefik.enable=true
+      - traefik.port=5000
+      - "traefik.frontend.rule=Host:www2.${HOST};"
+      #- "traefik.frontend.auth.basic=czen:$$apr1$$QMF6J3gc$$SlkZ9uVqQL6SE4NAK9Qe40"
 
   reverse-proxy:
     image: traefik:v1.7.18

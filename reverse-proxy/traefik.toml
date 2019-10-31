@@ -12,7 +12,7 @@ defaultEntryPoints = ["https","http"]
   address = ":443"
     [entryPoints.https.tls]
       [[entryPoints.https.tls.certificates]]
-      certFile = "/etc/certs/cert.pem"
+      certFile = "/etc/certs/fullchain.pem"
       keyFile = "/etc/certs/privkey.pem"
 
 [docker]

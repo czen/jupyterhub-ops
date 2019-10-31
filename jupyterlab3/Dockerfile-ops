@@ -1,0 +1,31 @@
+FROM czen/cling-llvm5-notebook
+
+USER $NB_UID
+
+RUN cd /home/$NB_USER/work/ops-build && \
+    cmake \
+    -D CMAKE_BUILD_TYPE=Debug \
+    -D OPS_LLVM_DIR=/home/$NB_USER/Lib/llvm-5.0.0.install \
+    -D BUILD_SHARED_LIBS=1 ../OPS && \
+    make; exit 0
+
+USER root
+
+RUN rm -rf /home/jovyan/.ssh/id_rsa && rm -rf /home/jovyan/.ssh/id_rsa.pub
+
+RUN rm -rf /home/jovyan/work/OPS/source
+
+RUN cd /home/jovyan/work/OPS && git remote remove origin && \
+    git remote add origin http://gitlab.mmcs.sfedu.ru:82/OPS_Group/OPS.git && \
+    git config --global credential.helper store
+
+
+#RUN cd /home/$NB_USER/work/OPS && git pull && \
+#    cd /home/$NB_USER/work/ops-build && \
+#    cmake \
+#    -D  CMAKE_BUILD_TYPE=Debug \
+#    -D OPS_LLVM_DIR=/home/$NB_USER/Lib/llvm-5.0.0.install \
+#    -D BUILD_SHARED_LIBS=1 ../OPS && \
+#    make
+
+
