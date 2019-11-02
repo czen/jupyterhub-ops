@@ -9,6 +9,7 @@ class DemoFormSpawner(DockerSpawner):
         <select name="stack" size="1">
         <option value="jupyter/scipy-notebook">Default Scipy notebook </option>
         <option value="czen/ops-cling-notebook:0.2">Scipy notebook with cling and OPS </option>
+        <option value="www2.opsgroup.ru/ops-notebook:0.3"> Better scipy notebook with cling and OPS </option>
         <option value="jupyter/datascience-notebook">Datascience notebook </option>
         </select>
         """.format(stack=default_stack)

@@ -20,7 +20,7 @@ services:
       - HOST
     labels:
       - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:${HOST};PathPrefix:/hub"
+      - "traefik.frontend.rule=Host:${HOST};"
     restart: on-failure
 
   jupyterlab:
