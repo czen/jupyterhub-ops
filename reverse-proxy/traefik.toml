@@ -12,6 +12,9 @@ defaultEntryPoints = ["https","http"]
   address = ":443"
     [entryPoints.https.tls]
       [[entryPoints.https.tls.certificates]]
+      certFile = "/etc/certs/www2.opsgroup.ru/fullchain.pem"
+      keyFile = "/etc/certs/www2.opsgroup.ru/privkey.pem"
+      [[entryPoints.https.tls.certificates]]
       certFile = "/etc/certs/fullchain.pem"
       keyFile = "/etc/certs/privkey.pem"
 
